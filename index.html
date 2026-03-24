@@ -117,7 +117,9 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
 
 /* ===== INFO ===== */
 .info-section{background:#fff}
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.info-card.full-row{grid-column:1/-1}
+@media(max-width:800px){.info-grid{grid-template-columns:1fr}}
 .info-card{background:var(--bg);border-radius:18px;padding:24px;border:1px solid #e5e7eb}
 .info-card h3{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .info-card h3 .ic{width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
@@ -383,19 +385,21 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
         <span class="pack-tag">防晒霜SPF50+</span><span class="pack-tag">墨镜</span><span class="pack-tag">薄外套</span><span class="pack-tag">泳衣</span><span class="pack-tag">补水面膜</span><span class="pack-tag">充电宝</span>
       </div>
     </div>
-    <div class="info-card reveal">
-      <h3><span class="ic" style="background:#dcfce7">&#128221;</span> 注意</h3>
-      <div class="tip-box"><h5>出发前</h5><ul>
-        <li>机票住宿现在就订，五一涨价厉害</li>
-        <li>温泉酒店选含私汤的，提前预约</li>
-        <li>和顺民宿选带庭院的</li>
-      </ul></div>
-      <div class="tip-box" style="margin-top:8px"><h5>到了以后</h5><ul>
-        <li>云南紫外线强，防晒到位</li>
-        <li>泡温泉每次别超20分钟</li>
-        <li>古镇小摊备点现金</li>
-        <li>腾冲包车约300/天，最灵活</li>
-      </ul></div>
+    <div class="info-card full-row reveal">
+      <h3><span class="ic" style="background:#dcfce7">&#128221;</span> 注意事项</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="tip-box"><h5>出发前</h5><ul>
+          <li>机票住宿现在就订，五一涨价厉害</li>
+          <li>温泉酒店选含私汤的，提前预约</li>
+          <li>和顺民宿选带庭院的</li>
+        </ul></div>
+        <div class="tip-box"><h5>到了以后</h5><ul>
+          <li>云南紫外线强，防晒到位</li>
+          <li>泡温泉每次别超20分钟</li>
+          <li>古镇小摊备点现金</li>
+          <li>腾冲包车约300/天，最灵活</li>
+        </ul></div>
+      </div>
     </div>
   </div>
 </section>
