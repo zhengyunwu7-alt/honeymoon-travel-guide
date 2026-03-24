@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>滇西情缘 · 七日蜜月漫游</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root{--pri:#1a56db;--pri-l:#e8f0fe;--grn:#2d6a4f;--org:#e85d04;--org-l:#fff3e0;--dk:#1a1a2e;--gy:#6b7280;--bg:#f8fafc;--card:#fff;--pk:#ec4899}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--dk);line-height:1.7;overflow-x:hidden}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 40%,#2d6a4f 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:60px 20px}
+.hero::before{content:'';position:absolute;inset:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(236,72,153,.08) 0%,transparent 50%),radial-gradient(circle at 70% 30%,rgba(26,86,219,.1) 0%,transparent 50%);animation:hbg 20s ease-in-out infinite alternate}
+@keyframes hbg{0%{transform:rotate(0) scale(1)}100%{transform:rotate(5deg) scale(1.05)}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:8px 24px;font-size:14px;color:rgba(255,255,255,.8);margin-bottom:20px;position:relative;z-index:1;animation:fid .8s ease}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--pk);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.hero-theme{font-family:'Noto Serif SC',serif;font-size:clamp(13px,2vw,16px);color:rgba(255,255,255,.4);letter-spacing:6px;margin-bottom:6px;position:relative;z-index:1;animation:fiu .8s ease .05s both}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(34px,6vw,60px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:14px;position:relative;z-index:1;animation:fiu .8s ease .1s both}
+.hero h1 span{background:linear-gradient(135deg,#f9a8d4,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:rgba(255,255,255,.6);max-width:520px;margin-bottom:36px;position:relative;z-index:1;animation:fiu .8s ease .2s both}
+.hero-info{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;animation:fiu .8s ease .3s both}
+.hero-info-item{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 20px;text-align:left}
+.hero-info-item .label{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.hero-info-item .value{font-size:14px;font-weight:600;color:#fff}
+.hero-route{margin-top:40px;position:relative;z-index:1;animation:fiu .8s ease .4s both}
+.route-flow{display:flex;align-items:center;flex-wrap:nowrap;justify-content:center}
+.route-node{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 16px;color:#fff;font-weight:500;font-size:13px;transition:.3s}
+.route-node.a1{background:var(--pri);border-color:var(--pri)}.route-node.a2{background:#059669;border-color:#059669}
+.route-arrow{color:rgba(255,255,255,.3);font-size:16px;padding:0 6px}
+.route-node small{display:block;font-size:10px;color:rgba(255,255,255,.5);font-weight:400}
+@keyframes fiu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fid{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SECTIONS ===== */
+section{max-width:1100px;margin:0 auto;padding:72px 24px}
+.slabel{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--pri);background:var(--pri-l);padding:5px 14px;border-radius:100px;margin-bottom:12px}
+.stitle{font-family:'Noto Serif SC',serif;font-size:clamp(24px,4vw,36px);font-weight:700;margin-bottom:8px}
+.sdesc{font-size:14px;color:var(--gy);max-width:540px;margin-bottom:40px}
+
+/* ===== ROMANTIC ===== */
+.romantic-section{background:linear-gradient(180deg,#fdf2f8 0%,var(--bg) 100%)}
+.rom-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+@media(max-width:900px){.rom-grid{grid-template-columns:repeat(5,1fr);gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.rom-card{min-width:160px;scroll-snap-align:start}}
+.rom-card{border-radius:18px;overflow:hidden;transition:.3s;background:var(--card);border:1px solid #f3e8ff}
+.rom-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
+.rom-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:48px}
+.rom-img.i1{background:url('https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fecdd3,#fda4af)}
+.rom-img.i2{background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#bfdbfe,#60a5fa)}
+.rom-img.i3{background:url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#a7f3d0,#34d399)}
+.rom-img.i4{background:url('https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fde68a,#f59e0b)}
+.rom-img.i5{background:url('https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#c7d2fe,#818cf8)}
+.rom-body{padding:18px}
+.rom-body .rk{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;margin-bottom:6px}
+.rk1{background:#ef4444}.rk2{background:#10b981}.rk3{background:var(--pk)}.rk4{background:#f59e0b}.rk5{background:#6366f1}
+.rom-body h3{font-size:15px;font-weight:700;margin-bottom:4px}.rom-body p{font-size:12px;color:var(--gy);line-height:1.5}
+
+/* ===== SPLIT LAYOUT: ITINERARY + MAP ===== */
+.split-section{max-width:1200px;margin:0 auto;padding:72px 24px}
+.split-header{margin-bottom:40px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.split-left{min-width:0}
+.split-right{position:sticky;top:24px;height:calc(100vh - 48px);border-radius:20px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+#map{width:100%;height:100%;z-index:1}
+@media(max-width:900px){
+  .split{grid-template-columns:1fr}
+  .split-right{position:relative;top:0;height:400px;margin-bottom:24px;order:-1}
+}
+
+/* Day filter pills inside map */
+.map-pills{position:absolute;top:12px;left:12px;z-index:1000;display:flex;gap:5px;flex-wrap:wrap}
+.map-pill{padding:5px 12px;border-radius:100px;border:none;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--gy);box-shadow:0 1px 4px rgba(0,0,0,.1);transition:.2s}
+.map-pill:hover{background:#fff;color:var(--dk)}
+.map-pill.active{background:var(--pri);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.3)}
+
+/* ===== DAY CARDS ===== */
+.day-card{background:var(--card);border-radius:20px;margin-bottom:20px;overflow:hidden;border:1px solid #e5e7eb;transition:all .3s}
+.day-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.04)}
+.day-card.map-active{border-color:var(--pri);box-shadow:0 0 0 2px rgba(26,86,219,.15)}
+.day-header{padding:20px 24px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none}
+.day-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-weight:900;font-size:17px;color:#fff;flex-shrink:0}
+.day-header-text h3{font-size:16px;font-weight:700}.day-header-text p{font-size:11px;color:var(--gy);margin-top:1px}
+.day-tag{margin-left:auto;padding:3px 11px;border-radius:100px;font-size:10px;font-weight:600;flex-shrink:0}
+.day-toggle{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--bg);font-size:13px;color:var(--gy);transition:transform .3s;flex-shrink:0}
+.day-card.open .day-toggle{transform:rotate(180deg)}
+.day-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1);padding:0 24px}
+.day-card.open .day-body{max-height:2000px;padding:0 24px 24px}
+
+.hotel{display:inline-flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:5px 12px;font-size:11px;color:var(--grn);font-weight:500;margin-bottom:14px}
+.vibe{display:inline-flex;align-items:center;gap:5px;background:#fdf2f8;border:1px solid #fce7f3;border-radius:8px;padding:5px 12px;font-size:11px;color:#9d174d;font-weight:500;margin-bottom:14px;margin-left:8px}
+
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:#e5e7eb;border-radius:2px}
+.tl-item{position:relative;padding-bottom:16px;display:flex;gap:12px;align-items:flex-start}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-20px;top:5px;width:9px;height:9px;border-radius:50%;border:2px solid var(--pri);background:#fff}
+.tl-item.hl .tl-dot{background:var(--org);border-color:var(--org);box-shadow:0 0 0 3px rgba(232,93,4,.12)}
+.tl-time{font-size:11px;font-weight:700;color:var(--pri);min-width:40px;padding-top:1px}
+.tl-content h4{font-size:13px;font-weight:600;margin-bottom:1px}.tl-content p{font-size:11px;color:var(--gy)}
+.tl-tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600;margin-top:2px}
+.tl-tag.free{background:#dcfce7;color:#166534}.tl-tag.paid{background:#fef3c7;color:#92400e}
+.food-list{margin-top:12px;padding:12px 16px;background:var(--org-l);border-radius:10px;border-left:3px solid var(--org)}
+.food-list h5{font-size:11px;font-weight:700;color:var(--org);margin-bottom:5px}
+.food-list ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
+.food-list li{font-size:11px;padding:1px 0}.food-list li::before{content:'\25C6';color:var(--org);margin-right:4px;font-size:8px}
+
+.d1 .day-num{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}.d1 .day-tag{background:#dbeafe;color:#1e40af}
+.d2 .day-num{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}.d2 .day-tag{background:#ede9fe;color:#5b21b6}
+.d3 .day-num{background:linear-gradient(135deg,#10b981,#059669)}.d3 .day-tag{background:#d1fae5;color:#065f46}
+.d4 .day-num{background:linear-gradient(135deg,#f59e0b,#d97706)}.d4 .day-tag{background:#fef3c7;color:#92400e}
+.d5 .day-num{background:linear-gradient(135deg,#ef4444,#dc2626)}.d5 .day-tag{background:#fee2e2;color:#991b1b}
+.d6 .day-num{background:linear-gradient(135deg,#ec4899,#db2777)}.d6 .day-tag{background:#fce7f3;color:#9d174d}
+.d7 .day-num{background:linear-gradient(135deg,#6366f1,#4f46e5)}.d7 .day-tag{background:#e0e7ff;color:#3730a3}
+
+/* ===== INFO ===== */
+.info-section{background:#fff}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.info-card{background:var(--bg);border-radius:18px;padding:24px;border:1px solid #e5e7eb}
+.info-card h3{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.info-card h3 .ic{width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.budget-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e5e7eb;font-size:13px}
+.budget-row:last-child{border-bottom:none}.budget-row .bl{color:var(--gy)}.budget-row .bv{font-weight:700}
+.budget-row.total .bl{font-weight:700;color:var(--dk)}.budget-row.total .bv{color:var(--org);font-size:16px}
+.food-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.food-chip{background:#fff;border-radius:8px;padding:8px 10px;border:1px solid #e5e7eb}
+.food-chip .fn{font-weight:600;font-size:12px}.food-chip .fd{font-size:10px;color:var(--gy);margin-top:1px}
+.pack-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.pack-tag{background:#fff;border:1px solid #e5e7eb;border-radius:100px;padding:4px 12px;font-size:11px}
+.tip-box{background:var(--pri-l);border-radius:10px;padding:14px 16px}
+.tip-box h5{font-size:11px;font-weight:700;color:var(--pri);margin-bottom:5px}
+.tip-box li{font-size:11px;color:#374151;margin-bottom:2px;margin-left:12px}
+
+/* FOOTER */
+.footer{text-align:center;padding:56px 24px 72px;background:linear-gradient(180deg,var(--bg) 0%,#fdf2f8 100%)}
+.footer h2{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;margin-bottom:6px}.footer p{font-size:14px;color:var(--gy)}
+
+/* SHARE */
+.share-fab{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--pri),#7c3aed);color:#fff;border:none;border-radius:100px;padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 6px 24px rgba(26,86,219,.3);transition:.3s}
+.share-fab:hover{transform:translateY(-2px)}
+.share-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
+.share-overlay.active{opacity:1;pointer-events:auto}
+.share-modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:22px 20px 32px;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.share-overlay.active .share-modal{transform:translateY(0)}
+.share-modal h3{font-size:17px;font-weight:700;margin-bottom:16px}
+.share-opt{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;border:1px solid #e5e7eb;cursor:pointer;transition:.2s;margin-bottom:8px}
+.share-opt:hover{background:var(--bg);transform:translateX(3px)}
+.share-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.share-opt h4{font-size:13px;font-weight:600}.share-opt p{font-size:10px;color:var(--gy)}
+.share-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dk);color:#fff;padding:10px 24px;border-radius:100px;font-size:12px;opacity:0;transition:.3s;pointer-events:none;z-index:2000}
+.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Leaflet tweaks */
+.leaflet-popup-content-wrapper{border-radius:10px!important;font-family:'Noto Sans SC',sans-serif!important;box-shadow:0 4px 16px rgba(0,0,0,.12)!important}
+.leaflet-popup-content{margin:10px 14px!important;font-size:12px!important;line-height:1.5!important}
+.leaflet-popup-content b{color:var(--pri)}
+.map-tooltip{background:rgba(255,255,255,.95)!important;border:none!important;border-radius:6px!important;padding:4px 10px!important;font-size:11px!important;font-weight:600!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important;font-family:'Noto Sans SC',sans-serif!important}
+.map-tooltip::before{border-top-color:rgba(255,255,255,.95)!important}
+
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:500px){
+  .route-node{padding:7px 8px;font-size:10px}
+  .route-arrow{padding:0 2px;font-size:11px}
+  .route-node small{font-size:8px}
+  .hero-route{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-left:-20px;margin-right:-20px;padding:0 20px}
+}
+@media print{.share-fab,.share-overlay,.split-right,.map-pills{display:none!important}.hero{min-height:auto;padding:36px 20px}.day-card .day-body{max-height:none!important;padding:0 24px 24px!important}.reveal{opacity:1!important;transform:none!important}.split{grid-template-columns:1fr}section,.split-section{padding:36px 24px}}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-badge"><span class="dot"></span> 蜜月旅行 · 2026五一</div>
+  <div class="hero-theme">YUNNAN HONEYMOON TRIP</div>
+  <h1><span>滇西情缘</span><br>七日蜜月漫游</h1>
+  <div class="hero-info">
+    <div class="hero-info-item"><div class="label">出发</div><div class="value">5/1 12:00 抵昆明</div></div>
+    <div class="hero-info-item"><div class="label">返程</div><div class="value">5/7 13:00 飞深圳</div></div>
+    <div class="hero-info-item"><div class="label">节奏</div><div class="value">松弛 · 悠闲 · 慢旅行</div></div>
+  </div>
+  <div class="hero-route"><div class="route-flow">
+    <div class="route-node">深圳<small>出发</small></div><span class="route-arrow">&rarr;</span>
+    <div class="route-node a1">昆明<small>Day1-2</small></div><span class="route-arrow">&rarr;</span>
+    <div class="route-node a2">腾冲<small>Day2-6</small></div><span class="route-arrow">&rarr;</span>
+    <div class="route-node a1">昆明<small>Day6-7</small></div><span class="route-arrow">&rarr;</span>
+    <div class="route-node">深圳<small>回家</small></div>
+  </div></div>
+</div>
+
+<!-- ===== ROMANTIC ===== -->
+<section class="romantic-section">
+  <div class="slabel">ROMANTIC</div>
+  <h2 class="stitle">蜜月浪漫时刻</h2>
+  <p class="sdesc">每一个转角，都想牵紧你的手。这些地方，是我最想和你一起走过的风景。</p>
+  <div class="rom-grid">
+    <div class="rom-card reveal"><div class="rom-img i1"></div><div class="rom-body"><div class="rk rk3">1</div><h3>斗南花市</h3><p>整个亚洲最大的花市，给你买一捧全世界最便宜的玫瑰</p></div></div>
+    <div class="rom-card reveal"><div class="rom-img i2"></div><div class="rom-body"><div class="rk rk5">2</div><h3>西山龙门</h3><p>站在五百里滇池之上，天地辽阔，你在我身边</p></div></div>
+    <div class="rom-card reveal"><div class="rom-img i3"></div><div class="rom-body"><div class="rk rk2">3</div><h3>私汤温泉</h3><p>什么都不用想，热汤氤氲里只有你和我</p></div></div>
+    <div class="rom-card reveal"><div class="rom-img i4"></div><div class="rom-body"><div class="rk rk1">4</div><h3>火山热气球</h3><p>想带你飞上天空，让整个腾冲做我们的背景</p></div></div>
+    <div class="rom-card reveal"><div class="rom-img i5"></div><div class="rom-body"><div class="rk rk4">5</div><h3>和顺古镇日落</h3><p>灯笼一盏盏亮起来的时候，我只想牵着你的手慢慢走</p></div></div>
+  </div>
+</section>
+
+<!-- ===== SPLIT: ITINERARY + MAP ===== -->
+<div class="split-section">
+  <div class="split-header">
+    <div class="slabel">ITINERARY</div>
+    <h2 class="stitle">松弛行程表</h2>
+    <p class="sdesc">七天不长，但每一天有你在身边，就是最好的旅行。</p>
+  </div>
+  <div class="split">
+    <div class="split-left">
+
+      <!-- D1 -->
+      <div class="day-card d1 open" data-day="1" id="day1">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D1</div><div class="day-header-text"><h3>初见春城</h3><p>5/1 周五 · 12:00抵昆明</p></div><span class="day-tag">昆明</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 翠湖附近酒店</div><div class="vibe">&#127793; 悠闲漫步 · 不赶路</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00</div><div class="tl-content"><h4>抵达昆明</h4><p>到酒店放行李，不着急，休息一下</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">14:00</div><div class="tl-content"><h4>翠湖公园漫步</h4><p>牵手沿湖走走，喂喂鸟，不用赶</p><span class="tl-tag free">免费</span></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">15:00</div><div class="tl-content"><h4>午餐：福照楼汽锅鸡</h4><p>翠湖店，两人慢慢吃，这就是云南的味道</p><span class="tl-tag paid">人均80</span></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">16:30</div><div class="tl-content"><h4>斗南花卉市场</h4><p>买一大捧鲜花送老婆，逛逛花的海洋</p><span class="tl-tag free">免费</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">18:30</div><div class="tl-content"><h4>南屏街晚餐 + 散步</h4><p>随便逛逛吃吃，不用做攻略</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>汽锅鸡 — 福照楼</li><li>过桥米线 — 桥香园</li><li>鲜花饼 — 随手买</li><li>烧饵块 — 街边尝</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="day-card d2" data-day="2" id="day2">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D2</div><div class="day-header-text"><h3>滇池远眺 · 飞抵腾冲</h3><p>5/2 周六 · 上午看湖，下午飞走</p></div><span class="day-tag">昆明&rarr;腾冲</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 和顺古镇民宿</div><div class="vibe">&#127748; 一天两城 · 转场日</div>
+          <div class="timeline">
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">8:30</div><div class="tl-content"><h4>滇池 + 西山龙门</h4><p>索道上山，龙门俯瞰滇池，不急慢慢看</p><span class="tl-tag paid">索道70+龙门40</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00</div><div class="tl-content"><h4>滇池附近午餐</h4><p>随意找家馆子</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">14:00</div><div class="tl-content"><h4>前往机场</h4></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">16:00</div><div class="tl-content"><h4>飞往腾冲</h4><p>约1小时</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">17:30</div><div class="tl-content"><h4>入住和顺古镇</h4><p>放下行李，换上拖鞋，慢下来</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">18:30</div><div class="tl-content"><h4>古镇夜游 + 土锅子</h4><p>灯笼映水，吃着火锅聊着天</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>土锅子 — 腾冲第一菜</li><li>大救驾 — 炒饵块</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="day-card d3" data-day="3" id="day3">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D3</div><div class="day-header-text"><h3>温泉之恋</h3><p>5/3 周日 · 睡到自然醒</p></div><span class="day-tag">腾冲</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 温泉酒店（悦椿/荷花）</div><div class="vibe">&#9832; 全天放松 · 泡汤发呆</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">睡到醒</div><div class="tl-content"><h4>不设闹钟</h4><p>在古镇的鸟鸣中自然醒来</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">10:00</div><div class="tl-content"><h4>热海景区</h4><p>慢慢逛，看大滚锅，煮个鸡蛋吃</p><span class="tl-tag paid">50元</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00</div><div class="tl-content"><h4>午餐</h4><p>不着急，随缘</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">14:00</div><div class="tl-content"><h4>入住温泉酒店</h4><p>换上浴袍，先在房间躺一会儿</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">15:30</div><div class="tl-content"><h4>私汤温泉</h4><p>两个人泡着热汤，什么都不想，这就是蜜月</p><span class="tl-tag paid">含房费</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">晚上</div><div class="tl-content"><h4>酒店晚餐</h4><p>银杏果炖土鸡，吃完继续泡</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>温泉煮鸡蛋 — 必体验</li><li>银杏果炖土鸡</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="day-card d4" data-day="4" id="day4">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D4</div><div class="day-header-text"><h3>火山云海 · 湿地漂流</h3><p>5/4 周一 · 今天稍微动一动</p></div><span class="day-tag">腾冲</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 和顺古镇民宿</div><div class="vibe">&#127748; 上午冒险 · 下午躺平</div>
+          <div class="timeline">
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">8:30</div><div class="tl-content"><h4>火山公园 + 热气球</h4><p>和老婆一起飞上天空看火山群，今天的重头戏</p><span class="tl-tag paid">35 + 热气球200-300/人</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">11:00</div><div class="tl-content"><h4>回古镇休息</h4><p>飞完回来躺一会儿，不着急</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00</div><div class="tl-content"><h4>午餐 + 午睡</h4><p>古镇里慢慢吃，回去睡个午觉</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">15:00</div><div class="tl-content"><h4>北海湿地</h4><p>坐竹筏漂在水上，踩踩浮动草甸，很安静</p><span class="tl-tag paid">80元含竹筏</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">17:00</div><div class="tl-content"><h4>回古镇喝茶</h4><p>找个茶馆坐坐，看看夕阳</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>腾冲烤鱼 — 晚餐</li><li>饵丝 — 比米线更Q</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D5 -->
+      <div class="day-card d5" data-day="5" id="day5">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D5</div><div class="day-header-text"><h3>古镇慢时光</h3><p>5/5 周二 · 哪儿都不去的一天</p></div><span class="day-tag">腾冲</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 和顺古镇民宿</div><div class="vibe">&#9749; 纯发呆日 · 无计划</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">睡到醒</div><div class="tl-content"><h4>不设闹钟</h4><p>今天完全自由，想干嘛干嘛</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">9:00</div><div class="tl-content"><h4>早餐：稀豆粉 + 油条</h4><p>在古镇里找个小摊，慢慢吃</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">10:00</div><div class="tl-content"><h4>沿湖散步</h4><p>野鸭湖、南湖、双虹桥，走走停停拍拍</p><span class="tl-tag paid">55元通票</span></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">14:00</div><div class="tl-content"><h4>银饰手作体验</h4><p>两个人一起做一对银饰，蜜月纪念品</p><span class="tl-tag paid">约200/人</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">16:00</div><div class="tl-content"><h4>找个咖啡馆坐着</h4><p>点杯咖啡，看看书，什么都不做</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">17:30</div><div class="tl-content"><h4>看日落</h4><p>这可能是整趟旅行最美的时刻</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">19:00</div><div class="tl-content"><h4>最后的古镇夜晚</h4><p>灯笼映水，慢慢走，不想走的话就再坐一会儿</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>土锅子 — 再吃一次</li><li>松花糕 — 买些带走</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D6 -->
+      <div class="day-card d6" data-day="6" id="day6">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D6</div><div class="day-header-text"><h3>告别腾冲 · 回到春城</h3><p>5/6 周三 · 傍晚飞昆明</p></div><span class="day-tag">腾冲&rarr;昆明</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="hotel">&#127968; 昆明酒店</div><div class="vibe">&#127811; 慢慢告别 · 不着急</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">睡到醒</div><div class="tl-content"><h4>最后一个腾冲早晨</h4><p>稀豆粉+油条，坐在院子里吃</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">10:00</div><div class="tl-content"><h4>古镇闲逛 + 买伴手礼</h4><p>松花糕、饵丝、茶叶，慢慢挑</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:00</div><div class="tl-content"><h4>最后一顿腾冲午餐</h4><p>想吃什么就吃什么</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">15:00</div><div class="tl-content"><h4>前往机场</h4></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">17:00</div><div class="tl-content"><h4>飞往昆明</h4><p>约1小时</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">18:30</div><div class="tl-content"><h4>到昆明，入住休息</h4></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">19:30</div><div class="tl-content"><h4>附近找个馆子吃晚饭</h4><p>推荐野生菌火锅，或再来一顿汽锅鸡</p></div></div>
+          </div>
+          <div class="food-list"><h5>今日推荐</h5><ul><li>野生菌火锅 — 应季</li><li>汽锅鸡 — 再吃一次</li></ul></div>
+        </div>
+      </div>
+
+      <!-- D7 -->
+      <div class="day-card d7" data-day="7" id="day7">
+        <div class="day-header" onclick="toggleDay(this)"><div class="day-num">D7</div><div class="day-header-text"><h3>依依不舍</h3><p>5/7 周四 · 13:00航班</p></div><span class="day-tag">返程</span><div class="day-toggle">&#9660;</div></div>
+        <div class="day-body">
+          <div class="vibe">&#128155; 回家也是旅行的一部分</div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">8:00</div><div class="tl-content"><h4>睡到自然醒</h4><p>最后一个云南的早晨</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">9:30</div><div class="tl-content"><h4>翠湖散步 / 附近逛逛</h4><p>或者哪儿也不去，在酒店赖着</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">11:00</div><div class="tl-content"><h4>前往机场</h4><p>地铁6号线直达</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">13:00</div><div class="tl-content"><h4>飞回深圳</h4><p>约2.5小时，15:30到家</p></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="split-right">
+      <div class="map-pills" id="mapPills">
+        <button class="map-pill active" data-d="0">全部</button>
+        <button class="map-pill" data-d="1">D1</button>
+        <button class="map-pill" data-d="2">D2</button>
+        <button class="map-pill" data-d="3">D3</button>
+        <button class="map-pill" data-d="4">D4</button>
+        <button class="map-pill" data-d="5">D5</button>
+        <button class="map-pill" data-d="6">D6</button>
+        <button class="map-pill" data-d="7">D7</button>
+      </div>
+      <div id="map"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INFO ===== -->
+<section class="info-section">
+  <div class="slabel">TRAVEL GUIDE</div>
+  <h2 class="stitle">出行指南</h2>
+  <p class="sdesc">都帮你想好了，你只管美美地出发，剩下的交给我。</p>
+  <div class="info-grid">
+    <div class="info-card reveal">
+      <h3><span class="ic" style="background:#fef3c7">&#128176;</span> 费用（2人）</h3>
+      <div class="budget-row"><span class="bl">机票（4程x2人）</span><span class="bv">7,000-10,000</span></div>
+      <div class="budget-row"><span class="bl">住宿（6晚）</span><span class="bv">2,500-4,000</span></div>
+      <div class="budget-row"><span class="bl">门票+体验</span><span class="bv">800-1,200</span></div>
+      <div class="budget-row"><span class="bl">餐饮</span><span class="bv">2,000-3,000</span></div>
+      <div class="budget-row"><span class="bl">交通+伴手礼</span><span class="bv">1,300-2,200</span></div>
+      <div class="budget-row total"><span class="bl">合计</span><span class="bv">13,000-20,000</span></div>
+    </div>
+    <div class="info-card reveal">
+      <h3><span class="ic" style="background:#fce7f3">&#127858;</span> 必吃</h3>
+      <div class="food-grid">
+        <div class="food-chip"><div class="fn">汽锅鸡</div><div class="fd">福照楼 · 80</div></div>
+        <div class="food-chip"><div class="fn">野生菌火锅</div><div class="fd">味庄 · 120</div></div>
+        <div class="food-chip"><div class="fn">土锅子</div><div class="fd">腾冲 · 80</div></div>
+        <div class="food-chip"><div class="fn">大救驾</div><div class="fd">炒饵块 · 20</div></div>
+        <div class="food-chip"><div class="fn">过桥米线</div><div class="fd">桥香园 · 30</div></div>
+        <div class="food-chip"><div class="fn">温泉煮蛋</div><div class="fd">热海 · 10</div></div>
+      </div>
+    </div>
+    <div class="info-card reveal">
+      <h3><span class="ic" style="background:#dbeafe">&#9728;&#65039;</span> 天气穿搭</h3>
+      <p style="font-size:12px;margin-bottom:6px"><b>白天</b> 21-27°C 晴 &nbsp; <b>夜间</b> 10-15°C</p>
+      <p style="font-size:12px;margin-bottom:4px"><b>老婆：</b>碎花裙+薄针织开衫 / 晚上风衣</p>
+      <p style="font-size:12px;margin-bottom:10px"><b>你：</b>T恤+薄长裤 / 晚上夹克</p>
+      <p style="font-size:11px;color:var(--gy);margin-bottom:4px;font-weight:600">必带</p>
+      <div class="pack-list">
+        <span class="pack-tag">防晒霜SPF50+</span><span class="pack-tag">墨镜</span><span class="pack-tag">薄外套</span><span class="pack-tag">泳衣</span><span class="pack-tag">补水面膜</span><span class="pack-tag">充电宝</span>
+      </div>
+    </div>
+    <div class="info-card reveal">
+      <h3><span class="ic" style="background:#dcfce7">&#128221;</span> 注意</h3>
+      <div class="tip-box"><h5>出发前</h5><ul>
+        <li>机票住宿现在就订，五一涨价厉害</li>
+        <li>温泉酒店选含私汤的，提前预约</li>
+        <li>和顺民宿选带庭院的</li>
+      </ul></div>
+      <div class="tip-box" style="margin-top:8px"><h5>到了以后</h5><ul>
+        <li>云南紫外线强，防晒到位</li>
+        <li>泡温泉每次别超20分钟</li>
+        <li>古镇小摊备点现金</li>
+        <li>腾冲包车约300/天，最灵活</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <h2>滇西情缘 · 蜜月快乐</h2>
+  <p>2026.5.1 - 5.7 · 和你在一起的每一天，都是最好的风景</p>
+</div>
+
+<!-- SHARE -->
+<div class="share-fab" onclick="document.getElementById('shareOv').classList.add('active');document.body.style.overflow='hidden'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>分享
+</div>
+<div class="share-overlay" id="shareOv" onclick="if(event.target===this){this.classList.remove('active');document.body.style.overflow=''}">
+  <div class="share-modal">
+    <h3>分享攻略</h3>
+    <div class="share-opt" onclick="copyLink()" style="border-color:var(--pri)"><div class="share-ic" style="background:linear-gradient(135deg,#dbeafe,#c7d2fe)">&#128279;</div><div><h4>复制链接</h4><p>发给老婆，手机直接打开看攻略</p></div></div>
+    <div class="share-opt" onclick="copySummary()"><div class="share-ic" style="background:#dbeafe">&#128203;</div><div><h4>复制攻略摘要</h4><p>一键复制文字版，发微信</p></div></div>
+    <div class="share-opt" onclick="copyDaily()"><div class="share-ic" style="background:#d1fae5">&#128172;</div><div><h4>复制每日行程</h4><p>详细每日安排</p></div></div>
+    <div class="share-opt" onclick="window.print()"><div class="share-ic" style="background:#fef3c7">&#128196;</div><div><h4>保存为PDF</h4><p>打印/导出</p></div></div>
+  </div>
+</div>
+<div class="share-toast" id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ===== DAY TOGGLE ===== */
+function toggleDay(h){
+  const card=h.parentElement;
+  const wasOpen=card.classList.contains('open');
+  card.classList.toggle('open');
+  if(!wasOpen){
+    const d=+card.dataset.day;
+    if(d) activateDay(d);
+  }
+}
+
+/* ===== REVEAL ===== */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ===== SHARE ===== */
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function copyLink(){
+  const url=window.location.href;
+  if(url.startsWith('file:')){toast('请先部署到线上再分享链接');return}
+  navigator.clipboard.writeText(url).then(()=>toast('链接已复制！发给老婆吧'))
+}
+function copySummary(){navigator.clipboard.writeText(`滇西情缘 · 七日蜜月漫游\n5/1-5/7 从深圳出发\n\n路线：深圳>昆明(1.5天)>腾冲(4天)>昆明(1晚)>深圳\n\nDay1 翠湖漫步+斗南花市\nDay2 滇池西山+飞腾冲+和顺夜游\nDay3 热海+私汤温泉（纯放松）\nDay4 火山热气球+北海湿地\nDay5 和顺古镇慢生活（发呆日）\nDay6 腾冲告别+飞昆明\nDay7 13:00飞深圳\n\n节奏：松弛·悠闲·不赶路\n人均：6,500-10,000元`).then(()=>toast('已复制！去微信粘贴吧'))}
+function copyDaily(){navigator.clipboard.writeText(`【D1·5/1·昆明】12:00抵达\n14:00 翠湖公园漫步\n15:00 福照楼汽锅鸡\n16:30 斗南花市\n18:30 南屏街晚餐\n\n【D2·5/2·昆明>腾冲】\n08:30 滇池+西山龙门\n16:00 飞腾冲\n18:30 和顺夜游+土锅子\n\n【D3·5/3·腾冲】睡到自然醒\n10:00 热海景区\n15:30 私汤温泉\n\n【D4·5/4·腾冲】\n08:30 火山公园+热气球\n15:00 北海湿地竹筏\n\n【D5·5/5·腾冲】纯发呆日\n10:00 沿湖散步\n14:00 银饰手作\n17:30 看日落\n\n【D6·5/6·腾冲>昆明】\n上午 古镇闲逛+买伴手礼\n17:00 飞昆明\n19:30 晚餐\n\n【D7·5/7·返程】\n11:00 去机场\n13:00 飞深圳 15:30到家`).then(()=>toast('已复制！'))}
+
+/* ===== MAP ===== */
+const map=L.map('map',{scrollWheelZoom:true,zoomControl:false}).setView([24.3,100.5],7);
+L.control.zoom({position:'bottomright'}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'',maxZoom:16}).addTo(map);
+
+const C={blue:'#3b82f6',purple:'#8b5cf6',green:'#10b981',amber:'#f59e0b',red:'#ef4444',pink:'#ec4899',indigo:'#6366f1',gray:'#9ca3af',city:'#ef4444'};
+const dayColors={1:C.blue,2:C.purple,3:C.green,4:C.amber,5:C.red,6:C.pink,7:C.indigo};
+
+function mkIcon(color,sz,active){
+  const s=sz||(active?16:11);
+  const op=active?1:.35;
+  const bw=active?3:2;
+  const shadow=active?';box-shadow:0 0 0 4px '+color+'33':'';
+  return L.divIcon({className:'',html:`<div style="width:${s}px;height:${s}px;background:${color};border:${bw}px solid #fff;border-radius:50%;opacity:${op};transition:all .4s${shadow}"></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2]})
+}
+
+const POI=[
+  {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1,7], city:'km', info:'Day1 · 翠湖漫步'},
+  {id:'dounan',  name:'斗南花市',   ll:[24.913,102.757], day:[1],   city:'km', info:'Day1 · 买花送老婆'},
+  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1],   city:'km', info:'Day1 · 晚餐散步'},
+  {id:'dianchi', name:'滇池',       ll:[24.966,102.632], day:[2],   city:'km', info:'Day2 · 高原明珠'},
+  {id:'xishan',  name:'西山龙门',   ll:[24.970,102.620], day:[2],   city:'km', info:'Day2 · 俯瞰滇池'},
+  {id:'heshun',  name:'和顺古镇',   ll:[24.958,98.448],  day:[2,5], city:'tc', info:'和顺 · 住4晚的家'},
+  {id:'rehai',   name:'热海景区',   ll:[24.945,98.436],  day:[3],   city:'tc', info:'Day3 · 温泉煮鸡蛋'},
+  {id:'hotsp',   name:'温泉酒店',   ll:[24.940,98.455],  day:[3],   city:'tc', info:'Day3 · 私汤蜜月'},
+  {id:'volcano', name:'火山公园',   ll:[25.078,98.494],  day:[4],   city:'tc', info:'Day4 · 热气球!'},
+  {id:'beihai',  name:'北海湿地',   ll:[25.121,98.478],  day:[4],   city:'tc', info:'Day4 · 竹筏漂流'},
+];
+
+const cities=[
+  {name:'深圳',ll:[22.543,114.058]},
+  {name:'昆明',ll:[25.039,102.718]},
+  {name:'腾冲',ll:[25.020,98.497]},
+];
+
+const routes=[
+  {from:[22.543,114.058],to:[25.039,102.718],color:'#94a3b8'},
+  {from:[25.039,102.718],to:[25.020,98.497],color:'#94a3b8'},
+  {from:[25.020,98.497],to:[25.039,102.718],color:'#94a3b8'},
+  {from:[25.039,102.718],to:[22.543,114.058],color:'#94a3b8'},
+];
+
+let allMarkers=[];
+let routeLines=[];
+let cityMarkers=[];
+let currentDay=0;
+
+cities.forEach(c=>{
+  const m=L.marker(c.ll,{icon:mkIcon(C.city,20,true),zIndexOffset:1000})
+    .bindTooltip(c.name,{permanent:true,direction:'top',offset:[0,-14],className:'map-tooltip'});
+  cityMarkers.push(m);
+  m.addTo(map);
+});
+
+POI.forEach(p=>{
+  const color=p.city==='km'?C.blue:C.green;
+  const m=L.marker(p.ll,{icon:mkIcon(color,11,false)})
+    .bindTooltip(p.name,{permanent:false,direction:'top',offset:[0,-8],className:'map-tooltip'})
+    .bindPopup(`<b>${p.name}</b><br>${p.info}`);
+  p.marker=m;
+  allMarkers.push(m);
+  m.addTo(map);
+});
+
+routes.forEach(r=>{
+  const l=L.polyline([r.from,r.to],{color:r.color,weight:1.5,dashArray:'6 6',opacity:.4});
+  routeLines.push(l);
+  l.addTo(map);
+});
+
+function activateDay(d,scroll){
+  currentDay=d;
+  document.querySelectorAll('.map-pill').forEach(b=>b.classList.toggle('active',+b.dataset.d===d));
+  document.querySelectorAll('.day-card').forEach(c=>c.classList.toggle('map-active',+c.dataset.day===d));
+
+  if(scroll && d>0){
+    const card=document.getElementById('day'+d);
+    if(card){
+      if(!card.classList.contains('open')) card.classList.add('open');
+      setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),100);
+    }
+  }
+
+  if(d===0){
+    // show all
+    POI.forEach(p=>{
+      const color=p.city==='km'?C.blue:C.green;
+      p.marker.setIcon(mkIcon(color,11,false));
+      p.marker.closeTooltip();
+      p.marker.unbindTooltip();
+      p.marker.bindTooltip(p.name,{permanent:false,direction:'top',offset:[0,-8],className:'map-tooltip'});
+    });
+    cityMarkers.forEach(m=>{m.setOpacity(1);m.openTooltip()});
+    routeLines.forEach(l=>l.setStyle({opacity:.4}));
+    map.flyTo([24.3,100.5],7,{duration:.8});
+    return;
+  }
+
+  const dayPois=POI.filter(p=>p.day.includes(d));
+  const otherPois=POI.filter(p=>!p.day.includes(d));
+  const dayColor=dayColors[d]||C.blue;
+
+  dayPois.forEach(p=>{
+    p.marker.setIcon(mkIcon(dayColor,16,true));
+    p.marker.unbindTooltip();
+    p.marker.bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-12],className:'map-tooltip'});
+    p.marker.openTooltip();
+    p.marker.setZIndexOffset(500);
+  });
+
+  otherPois.forEach(p=>{
+    p.marker.setIcon(mkIcon('#d1d5db',8,false));
+    p.marker.unbindTooltip();
+    p.marker.bindTooltip(p.name,{permanent:false,direction:'top',offset:[0,-6],className:'map-tooltip'});
+    p.marker.closeTooltip();
+    p.marker.setZIndexOffset(0);
+  });
+
+  cityMarkers.forEach(m=>m.setOpacity(.3));
+  routeLines.forEach(l=>l.setStyle({opacity:.15}));
+
+  if(dayPois.length>0){
+    const group=L.featureGroup(dayPois.map(p=>p.marker));
+    map.flyToBounds(group.getBounds().pad(0.4),{duration:.8,maxZoom:13});
+  }
+}
+
+document.querySelectorAll('.map-pill').forEach(btn=>{
+  btn.addEventListener('click',()=>activateDay(+btn.dataset.d,true));
+});
+
+const dayObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting && e.target.classList.contains('open')){
+      const d=+e.target.dataset.day;
+      if(d && d!==currentDay) activateDay(d);
+    }
+  });
+},{threshold:.5,rootMargin:'-100px 0px -100px 0px'});
+document.querySelectorAll('.day-card').forEach(c=>dayObs.observe(c));
+
+setTimeout(()=>map.invalidateSize(),300);
+</script>
+</body>
+</html>
