@@ -578,9 +578,7 @@ const kunmingRoutes={
   2:[
     {path:[[25.041,102.718],[25.030,102.710],[25.010,102.690],[25.000,102.680],[24.974,102.664]],label:'🚕 酒店→滇池',time:'30分钟',color:C.purple},
     {path:[[24.974,102.664],[24.960,102.645],[24.957,102.627]],label:'🚡 滇池→西山',time:'15分钟',color:C.purple},
-    {path:[[24.957,102.627],[24.970,102.650],[24.990,102.700],[25.030,102.800],[25.060,102.880],[25.101,102.932]],label:'🚕 西山→昆明机场',time:'50分钟',color:C.purple},
-    {path:[[25.101,102.932],[25.050,102.800],[24.950,102.650],[24.933,98.485]],label:'✈️ 昆明→腾冲',time:'1小时',color:C.purple},
-    {path:[[24.933,98.485],[24.950,98.488],[24.970,98.489],[25.000,98.490],[25.025,98.490]],label:'🚕 腾冲机场→酒店',time:'25分钟',color:C.purple},
+    // 机场路线仅标注时间，不绘制路线
   ],
 };
 
@@ -727,37 +725,38 @@ function activateDay(d,scroll){
     }
   });
   
-  // 绘制路线
-  if(kunmingRoutes[d]){
+  // 绘制路线并使用POI进行地图适配（更聚焦于景点）
+  const kmDayPOIs=kunmingPOI.filter(p=>p.day.includes(d)).map(p=>p.ll);
+  const tcDayPOIs=tengchongPOI.filter(p=>p.day.includes(d)).map(p=>p.ll);
+  
+  // 昆明路线和适配
+  if(kunmingRoutes[d]&&kmDayPOIs.length>0){
     kunmingRoutes[d].forEach(r=>{
-      const line=L.polyline(r.path,{color:r.color,weight:5,opacity:.9,smoothFactor:1,lineJoin:'round'});
+      const line=L.polyline(r.path,{color:r.color,weight:4,opacity:.8,smoothFactor:1,lineJoin:'round',dashArray:'8,6'});
       line.addTo(kmRouteLayer);
       const midIdx=Math.floor(r.path.length/2);
       const mid=r.path[midIdx];
-      const lbl=L.divIcon({className:'',html:`<div style="background:${r.color};color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><b>${r.label}</b><br><small>⏱️ ${r.time}</small></div>`,iconSize:[120,40],iconAnchor:[60,20]});
+      const lbl=L.divIcon({className:'',html:`<div style="background:${r.color};color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.25)"><b>${r.label}</b><br><small>⏱️ ${r.time}</small></div>`,iconSize:[100,35],iconAnchor:[50,17]});
       L.marker(mid,{icon:lbl}).addTo(kmRouteLayer);
     });
-    const dayRoutePoints=kunmingRoutes[d].flatMap(r=>r.path);
-    if(dayRoutePoints.length>0){
-      const bounds=L.latLngBounds(dayRoutePoints);
-      kmMap.fitBounds(bounds.pad(0.15),{duration:.8});
-    }
+    // 使用POI bounds而非路线点，更聚焦于景点
+    const bounds=L.latLngBounds(kmDayPOIs);
+    kmMap.fitBounds(bounds.pad(0.25),{duration:.8});
   }
   
-  if(tengchongRoutes[d]){
+  // 腾冲路线和适配
+  if(tengchongRoutes[d]&&tcDayPOIs.length>0){
     tengchongRoutes[d].forEach(r=>{
-      const line=L.polyline(r.path,{color:r.color,weight:5,opacity:.9,smoothFactor:1,lineJoin:'round'});
+      const line=L.polyline(r.path,{color:r.color,weight:4,opacity:.8,smoothFactor:1,lineJoin:'round',dashArray:'8,6'});
       line.addTo(tcRouteLayer);
       const midIdx=Math.floor(r.path.length/2);
       const mid=r.path[midIdx];
-      const lbl=L.divIcon({className:'',html:`<div style="background:${r.color};color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><b>${r.label}</b><br><small>⏱️ ${r.time}</small></div>`,iconSize:[120,40],iconAnchor:[60,20]});
+      const lbl=L.divIcon({className:'',html:`<div style="background:${r.color};color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.25)"><b>${r.label}</b><br><small>⏱️ ${r.time}</small></div>`,iconSize:[100,35],iconAnchor:[50,17]});
       L.marker(mid,{icon:lbl}).addTo(tcRouteLayer);
     });
-    const dayRoutePoints=tengchongRoutes[d].flatMap(r=>r.path);
-    if(dayRoutePoints.length>0){
-      const bounds=L.latLngBounds(dayRoutePoints);
-      tcMap.fitBounds(bounds.pad(0.15),{duration:.8});
-    }
+    // 使用POI bounds而非路线点，更聚焦于景点
+    const bounds=L.latLngBounds(tcDayPOIs);
+    tcMap.fitBounds(bounds.pad(0.25),{duration:.8});
   }
 }
 
