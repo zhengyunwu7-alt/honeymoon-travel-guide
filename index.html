@@ -508,8 +508,8 @@ function copyLink(){
   if(url.startsWith('file:')){toast('请先部署到线上再分享链接');return}
   navigator.clipboard.writeText(url).then(()=>toast('链接已复制！发给老婆吧'))
 }
-function copySummary(){navigator.clipboard.writeText(`春城花事 · 极边慢游记\n5/1-5/7 从深圳出发\n\n路线：深圳>昆明(1.5天)>腾冲(4天)>昆明(1晚)>深圳\n\nDay1 翠湖漫步+斗南花市\nDay2 滇池西山+飞腾冲\nDay3 和顺古镇+鲜花拓染（森羽ARBOR咖啡）\nDay4 北海湿地划草排+黑鱼河喂猴\nDay5 高黎贡山轻徒步+荒野厨房\nDay6 滇西抗战纪念馆+酒店发呆\nDay7 13:00飞深圳\n\n节奏：松弛·悠闲·不赶路\n人均：6,500-10,000元`).then(()=>toast('已复制！去微信粘贴吧'))}
-function copyDaily(){navigator.clipboard.writeText(`【D1·5/1·昆明】12:15抵达\n14:30 翠湖公园漫步\n17:00 斗南花市\n18:30 福照楼汽锅鸡+南屏街\n\n【D2·5/2·昆明>腾冲】\n09:00 滇池海埂大坝\n13:00 昆明飞腾冲\n晚上 酒店休息\n\n【D3·5/3·腾冲】睡到自然醒\n10:00 和顺古镇漫步\n14:00 森羽ARBOR咖啡·鲜花拓染\n17:30 野鸭湖看日落\n\n【D4·5/4·腾冲】睡到自然醒\n10:00 北海湿地（划草排踩草）\n14:30 黑鱼河（喂猴+烤黑鱼）\n18:00 回酒店\n\n【D5·5/5·腾冲】\n09:00 高黎贡山5公里轻徒步\n12:00 荒野厨房（森林美食）\n下午 回酒店休息\n\n【D6·5/6·腾冲>昆明】睡到自然醒\n10:30 滇西抗战纪念馆（室内）\n下午 酒店发呆+收拾行李\n18:00 告别晚餐\n21:00 去机场\n\n【D7·5/7·返程】\n09:45 腾冲飞昆明\n13:00 昆明飞深圳`).then(()=>toast('已复制！'))}
+function copySummary(){navigator.clipboard.writeText(`春城花事 · 极边慢游记\n5/1-5/7 从深圳出发\n\n路线：深圳>昆明(1.5天)>腾冲(4天)>昆明(1晚)>深圳\n\nDay1 翠湖漫步+南屏街\nDay2 滇池西山+飞腾冲\nDay3 和顺古镇+鲜花拓染（森羽ARBOR咖啡）\nDay4 北海湿地划草排+黑鱼河喂猴\nDay5 高黎贡山轻徒步+荒野厨房\nDay6 滇西抗战纪念馆+酒店发呆\nDay7 13:00飞深圳\n\n节奏：松弛·悠闲·不赶路\n人均：6,500-10,000元`).then(()=>toast('已复制！去微信粘贴吧'))}
+function copyDaily(){navigator.clipboard.writeText(`【D1·5/1·昆明】12:15抵达\n14:30 翠湖公园漫步\n18:30 福照楼汽锅鸡\n20:00 南屏街散步\n\n【D2·5/2·昆明>腾冲】\n09:00 滇池海埂大坝\n12:30 午餐过桥米线\n18:55 飞腾冲\n\n【D3·5/3·腾冲】睡到自然醒\n10:00 和顺古镇漫步\n14:00 森羽ARBOR咖啡·鲜花拓染\n17:30 野鸭湖看日落\n\n【D4·5/4·腾冲】睡到自然醒\n10:00 北海湿地（划草排踩草）\n14:30 黑鱼河（喂猴+烤黑鱼）\n18:00 回酒店\n\n【D5·5/5·腾冲】\n09:00 高黎贡山5公里轻徒步\n12:00 荒野厨房（森林美食）\n下午 回酒店休息\n\n【D6·5/6·腾冲>昆明】睡到自然醒\n10:30 滇西抗战纪念馆（室内）\n下午 酒店发呆+收拾行李\n18:00 告别晚餐\n21:00 去机场\n\n【D7·5/7·返程】\n09:45 腾冲飞昆明\n13:00 昆明飞深圳`).then(()=>toast('已复制！'))}
 
 /* ===== DUAL MAP SYSTEM - 双地图系统 ===== */
 const C={blue:'#3b82f6',purple:'#8b5cf6',green:'#10b981',amber:'#f59e0b',red:'#ef4444',pink:'#ec4899',indigo:'#6366f1',gray:'#9ca3af',city:'#ef4444',airport:'#f59e0b',hotel:'#8b5cf6',mountain:'#6b7280',water:'#0ea5e9',rail:'#64748b'};
@@ -535,8 +535,7 @@ const kunmingPOI=[
   
   // Day1 景点
   {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], type:'attraction', info:'Day1 · 14:30漫步', imgs:['https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800','https://images.unsplash.com/photo-1567142084094-cfc5cb2e045b?w=800','https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800']},
-  {id:'dounan',  name:'斗南花市',   ll:[24.893,102.747], day:[1], type:'attraction', info:'Day1 · 17:00花市', imgs:['https://images.unsplash.com/photo-1563241527-3004b7be025f?w=800','https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=800']},
-  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], type:'attraction', info:'Day1 · 18:30晚餐', imgs:['https://images.unsplash.com/photo-1555212697-194d092e3b8f?w=800','https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800']},
+  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], type:'attraction', info:'Day1 · 20:00晚餐', imgs:['https://images.unsplash.com/photo-1555212697-194d092e3b8f?w=800','https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800']},
   
   // Day2 景点
   {id:'dianchi', name:'滇池海埂',   ll:[24.974,102.664], day:[2], type:'water', info:'Day2 · 09:00红嘴鸥', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800']},
@@ -573,9 +572,8 @@ const kunmingRoutes={
   1:[
     {path:[[25.101,102.932],[25.090,102.910],[25.070,102.850],[25.050,102.780],[25.041,102.718]],label:'🚇 机场→酒店',time:'45分钟',color:C.blue},
     {path:[[25.041,102.718],[25.045,102.707]],label:'🚶 酒店→翠湖',time:'10分钟',color:C.blue},
-    {path:[[25.045,102.707],[25.040,102.720],[25.020,102.720],[25.000,102.730],[24.950,102.740],[24.893,102.747]],label:'🚇 翠湖→斗南花市',time:'40分钟',color:C.blue},
-    {path:[[24.893,102.747],[24.950,102.730],[25.010,102.720],[25.030,102.715],[25.038,102.712]],label:'🚕 花市→南屏街',time:'35分钟',color:C.blue},
-    {path:[[25.038,102.712],[25.041,102.718]],label:'🚶 返回酒店',time:'5分钟',color:C.blue},
+    {path:[[25.045,102.707],[25.040,102.710],[25.036,102.714]],label:'🚶 翠湖→南屏街',time:'15分钟',color:C.blue},
+    {path:[[25.036,102.714],[25.038,102.712]],label:'🚶 南屏街→酒店',time:'5分钟',color:C.blue},
   ],
   2:[
     {path:[[25.041,102.718],[25.030,102.710],[25.010,102.690],[25.000,102.680],[24.974,102.664]],label:'🚕 酒店→滇池',time:'30分钟',color:C.purple},
