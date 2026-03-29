@@ -173,6 +173,39 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
   .hero-route{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-left:-20px;margin-right:-20px;padding:0 20px}
 }
 @media print{.share-fab,.share-overlay,.split-right,.map-pills{display:none!important}.hero{min-height:auto;padding:36px 20px}.day-card .day-body{max-height:none!important;padding:0 24px 24px!important}.reveal{opacity:1!important;transform:none!important}.split{grid-template-columns:1fr}section,.split-section{padding:36px 24px}}
+
+/* ===== MAP IMAGE POPUP ===== */
+.img-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(10px);z-index:20000;opacity:0;visibility:hidden;transition:.3s;display:flex;align-items:center;justify-content:center}
+.img-popup-overlay.show{opacity:1;visibility:visible}
+.img-popup-container{position:relative;width:90%;max-width:1000px;height:85vh;background:#1a1a2e;border-radius:16px;overflow:hidden;transform:scale(.9);transition:.3s}
+.img-popup-overlay.show .img-popup-container{transform:scale(1)}
+.img-popup-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#1a1a2e;border-bottom:1px solid #333}
+.img-popup-title{color:#fff;font-size:16px;font-weight:600}
+.img-popup-close{width:36px;height:36px;border:none;background:rgba(255,255,255,.1);border-radius:50%;color:#fff;font-size:20px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center}
+.img-popup-close:hover{background:rgba(255,255,255,.2)}
+.img-popup-gallery{position:relative;height:calc(85vh - 70px);overflow:hidden}
+.img-popup-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.25,.46,.45,.94)}
+.img-popup-slide{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;padding:20px;background:#0f0f0f}
+.img-popup-slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;cursor:zoom-in;transition:transform .3s;user-select:none;-webkit-user-drag:none}
+.img-popup-slide img.zoomed{cursor:zoom-out;transform:scale(1.8)}
+.img-popup-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border:none;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50%;color:#fff;font-size:20px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;z-index:10}
+.img-popup-nav:hover{background:rgba(255,255,255,.3)}
+.img-popup-nav.prev{left:16px}
+.img-popup-nav.next{right:16px}
+.img-popup-nav:disabled{opacity:.2;cursor:not-allowed}
+.img-popup-counter{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;padding:8px 16px;border-radius:100px;font-size:13px;backdrop-filter:blur(4px)}
+.img-popup-dots{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10}
+.img-popup-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:.2s;cursor:pointer}
+.img-popup-dot.active{background:#fff}
+.img-popup-hint{position:absolute;top:70px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);color:rgba(255,255,255,.8);padding:6px 14px;border-radius:100px;font-size:12px;backdrop-filter:blur(4px)}
+@media(max-width:768px){
+  .img-popup-container{width:100%;height:100vh;border-radius:0}
+  .img-popup-gallery{height:calc(100vh - 70px)}
+  .img-popup-nav{width:44px;height:44px}
+  .img-popup-nav.prev{left:8px}
+  .img-popup-nav.next{right:8px}
+  .img-popup-slide{padding:10px}
+}
 </style>
 </head>
 <body>
@@ -464,19 +497,19 @@ function mkIcon(color,sz,active){
 }
 
 const POI=[
-  {id:'km_air',  name:'昆明长水机场', ll:[25.101,102.932], day:[1,2,7], city:'km', info:'航班起降'},
-  {id:'tc_air',  name:'腾冲驼峰机场', ll:[24.933,98.485],  day:[2,7], city:'tc', info:'航班起降'},
-  {id:'hotel_km',name:'东风广场亚朵', ll:[25.041,102.718], day:[1,2], city:'km', info:'昆明住宿'},
-  {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], city:'km', info:'Day1 · 翠湖漫步'},
-  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], city:'km', info:'Day1 · 晚餐散步'},
-  {id:'dianchi', name:'滇池海埂大坝',ll:[24.974,102.664], day:[2], city:'km', info:'Day2 · 高原明珠'},
-  {id:'hotel_tc',name:'朴居养心苑(砚湖)', ll:[25.025,98.490],  day:[2,3,4,5,6,7], city:'tc', info:'砚湖秘境 · 连住5晚'},
-  {id:'heshun',  name:'和顺古镇',   ll:[24.955,98.445],  day:[3], city:'tc', info:'Day3 · 和顺慢时光'},
-  {id:'rehai',   name:'热海大滚锅', ll:[24.945,98.436],  day:[4], city:'tc', info:'Day4 · 地热奇观(上午)'},
-  {id:'simola',  name:'司莫拉佤族村', ll:[24.965,98.455], day:[4], city:'tc', info:'Day4 · 佤族村寨(下午)'},
-  {id:'qiluo',   name:'绮罗古镇',   ll:[24.995,98.485],  day:[5], city:'tc', info:'Day5 · 小众绮罗(上午)'},
-  {id:'beihai',  name:'北海湿地',   ll:[25.121,98.478],  day:[5], city:'tc', info:'Day5 · 北海湿地(必去·下午)'},
-  {id:'guoshang',name:'国殇墓园',   ll:[25.023,98.481],  day:[6], city:'tc', info:'Day6 · 铭记历史'},
+  {id:'km_air',  name:'昆明长水机场', ll:[25.101,102.932], day:[1,2,7], city:'km', info:'航班起降', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800','https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800','https://images.unsplash.com/photo-1542296332-2e44a99da7a3?w=800','https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=800']},
+  {id:'tc_air',  name:'腾冲驼峰机场', ll:[24.933,98.485],  day:[2,7], city:'tc', info:'航班起降', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800','https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800']},
+  {id:'hotel_km',name:'东风广场亚朵', ll:[25.041,102.718], day:[1,2], city:'km', info:'昆明住宿', imgs:['https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800','https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800','https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800','https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800']},
+  {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], city:'km', info:'Day1 · 翠湖漫步', imgs:['https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800','https://images.unsplash.com/photo-1567142084094-cfc5cb2e045b?w=800','https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800','https://images.unsplash.com/photo-1543051932-6ef9fecfbc80?w=800']},
+  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], city:'km', info:'Day1 · 晚餐散步', imgs:['https://images.unsplash.com/photo-1555212697-194d092e3b8f?w=800','https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800','https://images.unsplash.com/photo-1519999482648-25049ddd37b1?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800']},
+  {id:'dianchi', name:'滇池海埂大坝',ll:[24.974,102.664], day:[2], city:'km', info:'Day2 · 高原明珠', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800','https://images.unsplash.com/photo-1549208954-3ba699b2b26c?w=800']},
+  {id:'hotel_tc',name:'朴居养心苑(砚湖)', ll:[25.025,98.490],  day:[2,3,4,5,6,7], city:'tc', info:'砚湖秘境 · 连住5晚', imgs:['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800','https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800','https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800','https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800']},
+  {id:'heshun',  name:'和顺古镇',   ll:[24.955,98.445],  day:[3], city:'tc', info:'Day3 · 和顺慢时光', imgs:['https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800','https://images.unsplash.com/photo-1528164344705-47542687000d?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800']},
+  {id:'rehai',   name:'热海大滚锅', ll:[24.945,98.436],  day:[4], city:'tc', info:'Day4 · 地热奇观(上午)', imgs:['https://images.unsplash.com/photo-1516617442634-75371039cb3a?w=800','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800','https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800','https://images.unsplash.com/photo-1518495973542-4542c0a5e6b9?w=800','https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800']},
+  {id:'simola',  name:'司莫拉佤族村', ll:[24.965,98.455], day:[4], city:'tc', info:'Day4 · 佤族村寨(下午)', imgs:['https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800','https://images.unsplash.com/photo-1528164344705-47542687000d?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800']},
+  {id:'qiluo',   name:'绮罗古镇',   ll:[24.995,98.485],  day:[5], city:'tc', info:'Day5 · 小众绮罗(上午)', imgs:['https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800','https://images.unsplash.com/photo-1528164344705-47542687000d?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800']},
+  {id:'beihai',  name:'北海湿地',   ll:[25.121,98.478],  day:[5], city:'tc', info:'Day5 · 北海湿地(必去·下午)', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1543051932-6ef9fecfbc80?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800']},
+  {id:'guoshang',name:'国殇墓园',   ll:[25.023,98.481],  day:[6], city:'tc', info:'Day6 · 铭记历史', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800']},
 ];
 
 const dailyRoutes = {
@@ -545,9 +578,11 @@ cities.forEach(c=>{
 
 POI.forEach(p=>{
   const color=p.city==='km'?C.blue:C.green;
+  const hasImgs=p.imgs&&p.imgs.length>0;
+  const popupContent=`<b style="font-size:14px;display:block;margin-bottom:6px">${p.name}</b><span style="font-size:12px;color:#666">${p.info}</span>${hasImgs?`<br><button onclick="openImgPopup('${p.id}')" style="margin-top:10px;padding:8px 16px;background:linear-gradient(135deg,#1a56db,#7c3aed);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">&#128247; 查看照片 (${p.imgs.length}张)</button>`:''}`;
   const m=L.marker(p.ll,{icon:mkIcon(color,11,false)})
     .bindTooltip(p.name,{permanent:false,direction:'top',offset:[0,-8],className:'map-tooltip'})
-    .bindPopup(`<b>${p.name}</b><br>${p.info}`);
+    .bindPopup(popupContent,{maxWidth:220,className:'poi-popup'});
   p.marker=m;
   allMarkers.push(m);
   m.addTo(map);
@@ -645,6 +680,48 @@ const dayObs=new IntersectionObserver(es=>{
 document.querySelectorAll('.day-card').forEach(c=>dayObs.observe(c));
 
 setTimeout(()=>map.invalidateSize(),300);
+
+/* ===== IMAGE POPUP ===== */
+let currentImgPopupPoi=null,currentImgIndex=0,imgZoomed=false;
+const imgPopupOv=document.createElement('div');imgPopupOv.className='img-popup-overlay';imgPopupOv.id='imgPopupOv';
+imgPopupOv.innerHTML=`<div class="img-popup-container"><div class="img-popup-header"><div class="img-popup-title"></div><button class="img-popup-close" onclick="closeImgPopup()">&#10005;</button></div><div class="img-popup-gallery"><div class="img-popup-track"></div><button class="img-popup-nav prev" onclick="prevImg()">&#10094;</button><button class="img-popup-nav next" onclick="nextImg()">&#10095;</button><div class="img-popup-dots"></div><div class="img-popup-counter"></div><div class="img-popup-hint">左右滑动切换 · 双击放大</div></div></div>`;
+document.body.appendChild(imgPopupOv);
+
+function openImgPopup(poiId){
+  const poi=POI.find(p=>p.id===poiId);if(!poi||!poi.imgs||!poi.imgs.length)return;
+  currentImgPopupPoi=poi;currentImgIndex=0;imgZoomed=false;
+  const track=imgPopupOv.querySelector('.img-popup-track');
+  const dots=imgPopupOv.querySelector('.img-popup-dots');
+  const title=imgPopupOv.querySelector('.img-popup-title');
+  track.innerHTML=poi.imgs.map((src,i)=>`<div class="img-popup-slide"><img src="${src}" alt="${poi.name} ${i+1}" ondblclick="toggleImgZoom(this)" onclick="if(imgZoomed)toggleImgZoom(this)"></div>`).join('');
+  dots.innerHTML=poi.imgs.map((_,i)=>`<div class="img-popup-dot ${i===0?'active':''}" onclick="goToImg(${i})"></div>`).join('');
+  title.textContent=poi.name+' · 实景照片';
+  updateImgPopup();imgPopupOv.classList.add('show');document.body.style.overflow='hidden';
+}
+function closeImgPopup(){imgPopupOv.classList.remove('show');document.body.style.overflow='';currentImgPopupPoi=null;imgZoomed=false;}
+function updateImgPopup(){
+  if(!currentImgPopupPoi)return;
+  const track=imgPopupOv.querySelector('.img-popup-track');
+  const dots=imgPopupOv.querySelectorAll('.img-popup-dot');
+  const counter=imgPopupOv.querySelector('.img-popup-counter');
+  const prevBtn=imgPopupOv.querySelector('.img-popup-nav.prev');
+  const nextBtn=imgPopupOv.querySelector('.img-popup-nav.next');
+  track.style.transform=`translateX(-${currentImgIndex*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===currentImgIndex));
+  counter.textContent=`${currentImgIndex+1} / ${currentImgPopupPoi.imgs.length}`;
+  prevBtn.disabled=currentImgIndex===0;nextBtn.disabled=currentImgIndex===currentImgPopupPoi.imgs.length-1;
+  imgZoomed=false;imgPopupOv.querySelectorAll('.img-popup-slide img').forEach(img=>img.classList.remove('zoomed'));
+}
+function prevImg(){if(currentImgIndex>0){currentImgIndex--;updateImgPopup();}}
+function nextImg(){if(currentImgPopupPoi&&currentImgIndex<currentImgPopupPoi.imgs.length-1){currentImgIndex++;updateImgPopup();}}
+function goToImg(index){currentImgIndex=index;updateImgPopup();}
+function toggleImgZoom(img){imgZoomed=!imgZoomed;img.classList.toggle('zoomed',imgZoomed);}
+imgPopupOv.addEventListener('click',e=>{if(e.target===imgPopupOv)closeImgPopup();});
+let touchStartX=0,touchEndX=0;
+imgPopupOv.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});
+imgPopupOv.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipe();},{passive:true});
+function handleSwipe(){const diff=touchStartX-touchEndX;if(Math.abs(diff)>50){if(diff>0)nextImg();else prevImg();}}
+imgPopupOv.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')prevImg();if(e.key==='ArrowRight')nextImg();if(e.key==='Escape')closeImgPopup();});
 </script>
 </body>
 </html>
