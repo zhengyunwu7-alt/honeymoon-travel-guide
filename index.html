@@ -161,6 +161,9 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
 .map-tooltip{background:rgba(255,255,255,.95)!important;border:none!important;border-radius:6px!important;padding:4px 10px!important;font-size:11px!important;font-weight:600!important;box-shadow:0 2px 8px rgba(0,0,0,.12)!important;font-family:'Noto Sans SC',sans-serif!important}
 .map-tooltip::before{border-top-color:rgba(255,255,255,.95)!important}
 
+.route-line { animation: dash 20s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -1000; } }
+.route-label { background: rgba(255,255,255,0.95); border: 1px solid var(--pri); padding: 2px 8px; border-radius: 100px; font-size: 10px; font-weight: 600; color: var(--pri); box-shadow: 0 2px 8px rgba(26,86,219,0.2); white-space: nowrap; transform: translate(-50%, -50%); display: inline-block; }
 .reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:500px){
   .route-node{padding:7px 8px;font-size:10px}
@@ -270,10 +273,10 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
         <div class="day-body">
           <div class="hotel">&#127968; 枕畔·朴居养心苑</div><div class="vibe">&#127748; 绿意盎然 · 纯净吸氧</div>
           <div class="timeline">
-            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">09:30</div><div class="tl-content"><h4>高黎贡山轻徒步</h4><p>感受原始森林的呼吸，满眼都是绿意</p></div></div>
-            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:30</div><div class="tl-content"><h4>午餐</h4><p>山脚下的农家饭</p></div></div>
-            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">15:00</div><div class="tl-content"><h4>北海湿地公园</h4><p>坐竹筏漂在水上，看神奇的水上草甸，很安静</p><span class="tl-tag paid">80元含竹筏</span></div></div>
-            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">17:30</div><div class="tl-content"><h4>回古镇休息</h4><p>找个茶馆坐坐，看看夕阳</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">09:30</div><div class="tl-content"><h4>北海湿地公园</h4><p>趁着早晨光线好，去划草排竹筏，看水鸟飞过</p><span class="tl-tag paid">80元含竹筏</span></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:30</div><div class="tl-content"><h4>午餐</h4><p>湿地附近的农家饭</p></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">14:30</div><div class="tl-content"><h4>高黎贡山轻徒步</h4><p>包车前往，走一段最轻松的步道，在原始森林里大口吸氧</p></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">17:30</div><div class="tl-content"><h4>返回和顺古镇</h4><p>回客栈休息，晚上在古镇吃晚饭</p></div></div>
           </div>
           <div class="food-list"><h5>今日推荐</h5><ul><li>大救驾 — 炒饵块(免辣)</li><li>高黎贡山茶</li></ul></div>
         </div>
@@ -285,7 +288,7 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
         <div class="day-body">
           <div class="hotel">&#127968; 枕畔·朴居养心苑</div><div class="vibe">&#9749; 庄严肃穆 · 悠闲午后</div>
           <div class="timeline">
-            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">10:00</div><div class="tl-content"><h4>国殇墓园 / 滇西抗战纪念馆</h4><p>了解历史，庄严肃穆的记忆</p><span class="tl-tag free">免费需预约</span></div></div>
+            <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">10:00</div><div class="tl-content"><h4>国殇墓园 / 滇西抗战纪念馆</h4><p>了解远征军历史，庄严肃穆的记忆，非常震撼</p><span class="tl-tag free">免费需预约</span></div></div>
             <div class="tl-item"><div class="tl-dot"></div><div class="tl-time">12:30</div><div class="tl-content"><h4>午餐</h4><p>古镇里随便吃点</p></div></div>
             <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">14:00</div><div class="tl-content"><h4>和顺古镇发呆</h4><p>找个咖啡馆坐着，点杯咖啡，看看书，什么都不做</p></div></div>
             <div class="tl-item hl"><div class="tl-dot"></div><div class="tl-time">17:30</div><div class="tl-content"><h4>看日落</h4><p>这可能是整趟旅行最美的时刻</p></div></div>
@@ -458,17 +461,51 @@ function mkIcon(color,sz,active){
 }
 
 const POI=[
-  {id:'hotel_km', name:'东风广场亚朵', ll:[25.041,102.718], day:[1], city:'km', info:'Day1 · 昆明住宿'},
+  {id:'km_air',  name:'昆明长水机场', ll:[25.101,102.932], day:[1,2,7], city:'km', info:'航班起降'},
+  {id:'tc_air',  name:'腾冲驼峰机场', ll:[24.933,98.485],  day:[2,7], city:'tc', info:'航班起降'},
+  {id:'hotel_km',name:'东风广场亚朵', ll:[25.041,102.718], day:[1,2], city:'km', info:'昆明住宿'},
   {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], city:'km', info:'Day1 · 翠湖漫步'},
-  {id:'dianchi', name:'滇池',       ll:[24.966,102.632], day:[2],   city:'km', info:'Day2 · 高原明珠'},
-  {id:'hotel_tc',name:'朴居养心苑', ll:[24.958,98.448],  day:[2,3,4,5,6], city:'tc', info:'和顺 · 连住5晚'},
-  {id:'heshun',  name:'和顺古镇',   ll:[24.955,98.445],  day:[5,6], city:'tc', info:'Day5-6 · 古镇慢生活'},
-  {id:'rehai',   name:'热海大滚锅', ll:[24.945,98.436],  day:[3],   city:'tc', info:'Day3 · 地热奇观'},
-  {id:'qiluo',   name:'绮罗古镇',   ll:[24.995,98.485],  day:[3],   city:'tc', info:'Day3 · 小众宁静'},
-  {id:'gaoligong',name:'高黎贡山',  ll:[25.300,98.800],  day:[4],   city:'tc', info:'Day4 · 森林深呼吸'},
-  {id:'beihai',  name:'北海湿地',   ll:[25.121,98.478],  day:[4],   city:'tc', info:'Day4 · 竹筏漂流'},
-  {id:'guoshang',name:'国殇墓园',   ll:[25.023,98.481],  day:[5],   city:'tc', info:'Day5 · 铭记历史'},
+  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], city:'km', info:'Day1 · 晚餐散步'},
+  {id:'dianchi', name:'滇池海埂大坝',ll:[24.974,102.664], day:[2], city:'km', info:'Day2 · 高原明珠'},
+  {id:'hotel_tc',name:'朴居养心苑', ll:[24.955,98.445],  day:[2,3,4,5,6,7], city:'tc', info:'和顺 · 连住5晚'},
+  {id:'rehai',   name:'热海大滚锅', ll:[24.945,98.436],  day:[3], city:'tc', info:'Day3 · 地热奇观'},
+  {id:'qiluo',   name:'绮罗古镇',   ll:[24.995,98.485],  day:[3], city:'tc', info:'Day3 · 小众宁静'},
+  {id:'beihai',  name:'北海湿地',   ll:[25.121,98.478],  day:[4], city:'tc', info:'Day4 · 竹筏漂流'},
+  {id:'gaoligong',name:'高黎贡山',  ll:[25.050,98.600],  day:[4], city:'tc', info:'Day4 · 森林深呼吸'},
+  {id:'guoshang',name:'国殇墓园',   ll:[25.023,98.481],  day:[5], city:'tc', info:'Day5 · 铭记历史'},
 ];
+
+const dailyRoutes = {
+  1: [
+    {f: [25.101,102.932], t: [25.041,102.718], lbl: '🚇 地铁6号线转3号线 · 45分'},
+    {f: [25.041,102.718], t: [25.045,102.707], lbl: '🚶 步行/打车 · 15分'},
+    {f: [25.045,102.707], t: [25.036,102.714], lbl: '🚶 步行 · 15分'}
+  ],
+  2: [
+    {f: [25.041,102.718], t: [24.974,102.664], lbl: '🚕 打车 · 30分'},
+    {f: [24.974,102.664], t: [25.101,102.932], lbl: '🚕 打车 · 45分'},
+    {f: [25.101,102.932], t: [24.933,98.485],  lbl: '✈️ 飞机 · 1小时'},
+    {f: [24.933,98.485],  t: [24.955,98.445],  lbl: '🚕 打车 · 30分'}
+  ],
+  3: [
+    {f: [24.955,98.445], t: [24.945,98.436], lbl: '🚕 打车 · 20分'},
+    {f: [24.945,98.436], t: [24.995,98.485], lbl: '🚕 打车 · 25分'},
+    {f: [24.995,98.485], t: [24.955,98.445], lbl: '🚕 打车 · 15分'}
+  ],
+  4: [
+    {f: [24.955,98.445], t: [25.121,98.478], lbl: '🚕 打车 · 30分'},
+    {f: [25.121,98.478], t: [25.050,98.600], lbl: '🚙 包车 · 45分'},
+    {f: [25.050,98.600], t: [24.955,98.445], lbl: '🚙 包车 · 1小时'}
+  ],
+  5: [
+    {f: [24.955,98.445], t: [25.023,98.481], lbl: '🚕 打车 · 15分'},
+    {f: [25.023,98.481], t: [24.955,98.445], lbl: '🚕 打车 · 15分'}
+  ],
+  7: [
+    {f: [24.955,98.445], t: [24.933,98.485], lbl: '🚕 打车 · 30分'},
+    {f: [24.933,98.485], t: [25.101,102.932], lbl: '✈️ 飞机 · 1小时'}
+  ]
+};
 
 const cities=[
   {name:'深圳',ll:[22.543,114.058]},
@@ -487,6 +524,7 @@ let allMarkers=[];
 let routeLines=[];
 let cityMarkers=[];
 let currentDay=0;
+let dayRouteLayer=L.featureGroup().addTo(map);
 
 cities.forEach(c=>{
   const m=L.marker(c.ll,{icon:mkIcon(C.city,20,true),zIndexOffset:1000})
@@ -524,6 +562,8 @@ function activateDay(d,scroll){
     }
   }
 
+  dayRouteLayer.clearLayers();
+
   if(d===0){
     // show all
     POI.forEach(p=>{
@@ -560,11 +600,23 @@ function activateDay(d,scroll){
   });
 
   cityMarkers.forEach(m=>m.setOpacity(.3));
-  routeLines.forEach(l=>l.setStyle({opacity:.15}));
+  routeLines.forEach(l=>l.setStyle({opacity:0})); // hide generic routes
 
-  if(dayPois.length>0){
-    const group=L.featureGroup(dayPois.map(p=>p.marker));
-    map.flyToBounds(group.getBounds().pad(0.4),{duration:.8,maxZoom:13});
+  // Draw specific day routes
+  if(dailyRoutes[d]){
+    dailyRoutes[d].forEach(r=>{
+      const line=L.polyline([r.f,r.t],{color:dayColor,weight:3,dashArray:'6 6',className:'route-line'}).addTo(dayRouteLayer);
+      const mid=[(r.f[0]+r.t[0])/2, (r.f[1]+r.t[1])/2];
+      L.marker(mid,{
+        icon:L.divIcon({className:'',html:`<div class="route-label" style="color:${dayColor};border-color:${dayColor}">${r.lbl}</div>`,iconSize:[0,0]})
+      }).addTo(dayRouteLayer);
+    });
+  }
+
+  if(dayPois.length>0 || (dailyRoutes[d] && dailyRoutes[d].length>0)){
+    let group=L.featureGroup(dayPois.map(p=>p.marker));
+    if(dailyRoutes[d]) group=L.featureGroup([group,dayRouteLayer]);
+    map.flyToBounds(group.getBounds().pad(0.3),{duration:.8,maxZoom:13});
   }
 }
 
