@@ -48,11 +48,11 @@ section{max-width:1100px;margin:0 auto;padding:72px 24px}
 .rom-card{border-radius:18px;overflow:hidden;transition:.3s;background:var(--card);border:1px solid #f3e8ff}
 .rom-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
 .rom-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:48px}
-.rom-img.i1{background:url('https://images.unsplash.com/photo-1567142084094-cfc5cb2e045b?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fecdd3,#fda4af)}
-.rom-img.i2{background:url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#bfdbfe,#60a5fa)}
-.rom-img.i3{background:url('https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#a7f3d0,#34d399)}
-.rom-img.i4{background:url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fde68a,#f59e0b)}
-.rom-img.i5{background:url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#c7d2fe,#818cf8)}
+.rom-img.i1{background:url('https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fecdd3,#fda4af)}
+.rom-img.i2{background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#bfdbfe,#60a5fa)}
+.rom-img.i3{background:url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#a7f3d0,#34d399)}
+.rom-img.i4{background:url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#fde68a,#f59e0b)}
+.rom-img.i5{background:url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400&h=300&fit=crop') center/cover,linear-gradient(135deg,#c7d2fe,#818cf8)}
 .rom-body{padding:18px}
 .rom-body .rk{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;margin-bottom:6px}
 .rk1{background:#ef4444}.rk2{background:#10b981}.rk3{background:var(--pk)}.rk4{background:#f59e0b}.rk5{background:#6366f1}
@@ -528,92 +528,82 @@ function mkIcon(color,sz,active,iconType='dot'){
 /* ===== KUNMING POI DATA ===== */
 const kunmingPOI=[
   // 交通枢纽
-  {id:'km_air',  name:'长水机场', ll:[25.101,102.932], day:[1,2], type:'airport', info:'✈️ D1抵达/D2出发', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800','https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800']},
-  {id:'km_rail', name:'昆明站', ll:[25.020,102.720], day:[1,2], type:'rail', info:'🚄 高铁站', imgs:['https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800','https://images.unsplash.com/photo-1558597538-c699c52f1359?w=800']},
+  {id:'km_air',  name:'长水机场', ll:[25.101,102.932], day:[1,2], type:'airport', info:'✈️ D1抵达/D2出发', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800']},
   
   // 住宿
-  {id:'hotel_km',name:'东风广场亚朵', ll:[25.041,102.718], day:[1,2], type:'hotel', info:'🏨 市中心', imgs:['https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800','https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800']},
+  {id:'hotel_km',name:'东风广场亚朵', ll:[25.041,102.718], day:[1,2], type:'hotel', info:'🏨 市中心', imgs:['https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800','https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800']},
   
   // Day1 景点
-  {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], type:'attraction', info:'Day1 · 14:30漫步', imgs:['https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800','https://images.unsplash.com/photo-1567142084094-cfc5cb2e045b?w=800','https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800']},
-  {id:'dounan',  name:'斗南花市',   ll:[24.893,102.747], day:[1], type:'attraction', info:'Day1 · 17:00花市', imgs:['https://images.unsplash.com/photo-1563241527-3004b7be025f?w=800','https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=800','https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800']},
-  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], type:'attraction', info:'Day1 · 18:30晚餐', imgs:['https://images.unsplash.com/photo-1555212697-194d092e3b8f?w=800','https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800','https://images.unsplash.com/photo-1519999482648-25049ddd37b1?w=800']},
-  {id:'fuzhao',  name:'福照楼',     ll:[25.038,102.712], day:[1], type:'food', info:'Day1 · 汽锅鸡', imgs:['https://images.unsplash.com/photo-1563241527-3004b7be025f?w=800','https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800','https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800']},
+  {id:'cuihu',   name:'翠湖公园',   ll:[25.045,102.707], day:[1], type:'attraction', info:'Day1 · 14:30漫步', imgs:['https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800','https://images.unsplash.com/photo-1567142084094-cfc5cb2e045b?w=800','https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=800']},
+  {id:'dounan',  name:'斗南花市',   ll:[24.893,102.747], day:[1], type:'attraction', info:'Day1 · 17:00花市', imgs:['https://images.unsplash.com/photo-1563241527-3004b7be025f?w=800','https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=800']},
+  {id:'nanping', name:'南屏街',     ll:[25.036,102.714], day:[1], type:'attraction', info:'Day1 · 18:30晚餐', imgs:['https://images.unsplash.com/photo-1555212697-194d092e3b8f?w=800','https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800']},
   
   // Day2 景点
-  {id:'dianchi', name:'滇池海埂',   ll:[24.974,102.664], day:[2], type:'water', info:'Day2 · 09:00红嘴鸥', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800']},
-  {id:'xishan',  name:'西山龙门',   ll:[24.957,102.627], day:[2], type:'mountain', info:'Day2 · 俯瞰滇池', imgs:['https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800','https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800']},
+  {id:'dianchi', name:'滇池海埂',   ll:[24.974,102.664], day:[2], type:'water', info:'Day2 · 09:00红嘴鸥', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800']},
+  {id:'xishan',  name:'西山龙门',   ll:[24.957,102.627], day:[2], type:'mountain', info:'Day2 · 俯瞰滇池', imgs:['https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800']},
 ];
 
 /* ===== TENGCHONG POI DATA ===== */
 const tengchongPOI=[
   // 交通枢纽
-  {id:'tc_air',  name:'驼峰机场',   ll:[24.933,98.485],  day:[2,7], type:'airport', info:'✈️ D2抵达/D7出发', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800','https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800']},
+  {id:'tc_air',  name:'驼峰机场',   ll:[24.933,98.485],  day:[2,7], type:'airport', info:'✈️ D2抵达/D7出发', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800']},
   
   // 住宿
-  {id:'hotel_tc',name:'朴居养心苑', ll:[25.025,98.490],  day:[2,3,4,5,6,7], type:'hotel', info:'🏨 连住5晚·砚湖', imgs:['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800','https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800']},
+  {id:'hotel_tc',name:'朴居养心苑', ll:[25.025,98.490],  day:[2,3,4,5,6,7], type:'hotel', info:'🏨 连住5晚·砚湖', imgs:['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800']},
   
   // Day3 景点
-  {id:'heshun',  name:'和顺古镇',   ll:[24.955,98.445],  day:[3], type:'attraction', info:'Day3 · 10:00鲜花拓染', imgs:['https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800','https://images.unsplash.com/photo-1528164344705-47542687000d?w=800']},
-  {id:'yehu',    name:'野鸭湖',     ll:[24.950,98.450],  day:[3], type:'water', info:'Day3 · 17:30日落', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800']},
-  {id:'senyu',   name:'森羽ARBOR',  ll:[24.953,98.443],  day:[3], type:'attraction', info:'Day3 · 14:00拓染', imgs:['https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800','https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800','https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800']},
+  {id:'heshun',  name:'和顺古镇',   ll:[24.955,98.445],  day:[3], type:'attraction', info:'Day3 · 10:00鲜花拓染', imgs:['https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800','https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800']},
+  {id:'yehu',    name:'野鸭湖',     ll:[24.950,98.450],  day:[3], type:'water', info:'Day3 · 17:30日落', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800']},
+  {id:'senyu',   name:'森羽ARBOR',  ll:[24.953,98.443],  day:[3], type:'attraction', info:'Day3 · 14:00拓染', imgs:['https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800','https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800']},
   
   // Day4 景点
-  {id:'beihai',  name:'北海湿地',   ll:[25.120,98.480], day:[4], type:'water', info:'Day4 · 10:00划草排', imgs:['https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800','https://images.unsplash.com/photo-1543051932-6ef9fecfbc80?w=800']},
+  {id:'beihai',  name:'北海湿地',   ll:[25.120,98.480], day:[4], type:'water', info:'Day4 · 10:00划草排', imgs:['https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800']},
   {id:'heiyuhe', name:'黑鱼河',     ll:[25.155,98.485], day:[4], type:'water', info:'Day4 · 14:30喂猴烤鱼', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1543051932-6ef9fecfbc80?w=800']},
-  {id:'zhuangjieli',name:'柱状节理', ll:[25.150,98.480], day:[4], type:'mountain', info:'Day4 · 火山奇观', imgs:['https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800','https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800']},
   
   // Day5 景点
-  {id:'gaoligong',name:'高黎贡山',  ll:[25.050,98.600],  day:[5], type:'mountain', info:'Day5 · 09:00轻徒步', imgs:['https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800','https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800','https://images.unsplash.com/photo-1543051932-6ef9fecfbc80?w=800']},
-  {id:'kuangye', name:'荒野厨房',   ll:[25.040,98.580],  day:[5], type:'food', info:'Day5 · 12:00森林美食', imgs:['https://images.unsplash.com/photo-1556910103-1c02745a30bf?w=800','https://images.unsplash.com/photo-1544025162-d76694265947?w=800','https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']},
+  {id:'gaoligong',name:'高黎贡山',  ll:[25.050,98.600],  day:[5], type:'mountain', info:'Day5 · 09:00轻徒步', imgs:['https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=800','https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800']},
+  {id:'kuangye', name:'荒野厨房',   ll:[25.040,98.580],  day:[5], type:'food', info:'Day5 · 12:00森林美食', imgs:['https://images.unsplash.com/photo-1556910103-1c02745a30bf?w=800','https://images.unsplash.com/photo-1544025162-d76694265947?w=800']},
   
   // Day6 景点
-  {id:'guoshang',name:'国殇墓园',   ll:[25.023,98.481],  day:[6], type:'attraction', info:'Day6 · 10:30铭记历史', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800','https://images.unsplash.com/photo-1548795747-e5425e33fdbb?w=800']},
-  
-  // 城市地标
-  {id:'yanhu',   name:'砚湖',       ll:[25.025,98.490],  day:[2,3,4,5,6,7], type:'water', info:'酒店旁', imgs:['https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800','https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800']},
-  {id:'tengcheng',name:'腾冲市区',  ll:[25.020,98.497],  day:[2,6,7], type:'landmark', info:'市区', imgs:['https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800','https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800']},
+  {id:'guoshang',name:'滇西抗战纪念馆', ll:[25.023,98.481], day:[6], type:'attraction', info:'Day6 · 10:30室内展馆', imgs:['https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800','https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800']},
 ];
 
-/* ===== ROUTE DATA - 实际道路走向 ===== */
+/* ===== ROUTE DATA - 只显示实际去的景点路线 ===== */
 const kunmingRoutes={
   1:[
-    {path:[[25.101,102.932],[25.090,102.910],[25.070,102.850],[25.050,102.780],[25.041,102.718]],label:'🚇 地铁6号线→3号线',time:'45分钟',color:C.blue},
-    {path:[[25.041,102.718],[25.045,102.707]],label:'🚶 步行',time:'10分钟',color:C.blue},
-    {path:[[25.045,102.707],[25.040,102.720],[25.020,102.720],[25.000,102.730],[24.950,102.740],[24.893,102.747]],label:'🚇 地铁1号线→4号线',time:'40分钟',color:C.blue},
-    {path:[[24.893,102.747],[24.950,102.730],[25.010,102.720],[25.030,102.715],[25.038,102.712]],label:'🚕 打车',time:'35分钟',color:C.blue},
-    {path:[[25.038,102.712],[25.036,102.714]],label:'🚶 步行',time:'5分钟',color:C.blue},
+    {path:[[25.101,102.932],[25.090,102.910],[25.070,102.850],[25.050,102.780],[25.041,102.718]],label:'🚇 机场→酒店',time:'45分钟',color:C.blue},
+    {path:[[25.041,102.718],[25.045,102.707]],label:'🚶 酒店→翠湖',time:'10分钟',color:C.blue},
+    {path:[[25.045,102.707],[25.040,102.720],[25.020,102.720],[25.000,102.730],[24.950,102.740],[24.893,102.747]],label:'🚇 翠湖→斗南花市',time:'40分钟',color:C.blue},
+    {path:[[24.893,102.747],[24.950,102.730],[25.010,102.720],[25.030,102.715],[25.038,102.712]],label:'🚕 花市→南屏街',time:'35分钟',color:C.blue},
+    {path:[[25.038,102.712],[25.041,102.718]],label:'🚶 返回酒店',time:'5分钟',color:C.blue},
   ],
   2:[
-    {path:[[25.041,102.718],[25.030,102.710],[25.010,102.690],[25.000,102.680],[24.974,102.664]],label:'🚕 打车去滇池',time:'30分钟',color:C.purple},
-    {path:[[24.974,102.664],[24.960,102.645],[24.957,102.627]],label:'🚡 西山索道',time:'15分钟',color:C.purple},
-    {path:[[24.957,102.627],[24.970,102.650],[24.990,102.700],[25.030,102.800],[25.060,102.880],[25.101,102.932]],label:'🚕 打车去机场',time:'50分钟',color:C.purple},
+    {path:[[25.041,102.718],[25.030,102.710],[25.010,102.690],[25.000,102.680],[24.974,102.664]],label:'🚕 酒店→滇池',time:'30分钟',color:C.purple},
+    {path:[[24.974,102.664],[24.960,102.645],[24.957,102.627]],label:'🚡 滇池→西山',time:'15分钟',color:C.purple},
+    {path:[[24.957,102.627],[24.970,102.650],[24.990,102.700],[25.030,102.800],[25.060,102.880],[25.101,102.932]],label:'🚕 西山→昆明机场',time:'50分钟',color:C.purple},
+    {path:[[25.101,102.932],[25.050,102.800],[24.950,102.650],[24.933,98.485]],label:'✈️ 昆明→腾冲',time:'1小时',color:C.purple},
+    {path:[[24.933,98.485],[24.950,98.488],[24.970,98.489],[25.000,98.490],[25.025,98.490]],label:'🚕 腾冲机场→酒店',time:'25分钟',color:C.purple},
   ],
 };
 
 const tengchongRoutes={
-  2:[
-    {path:[[24.933,98.485],[24.950,98.488],[24.970,98.489],[25.000,98.490],[25.025,98.490]],label:'🚕 机场→酒店',time:'25分钟',color:C.purple},
-  ],
   3:[
     {path:[[25.025,98.490],[25.010,98.480],[24.990,98.468],[24.970,98.455],[24.955,98.445]],label:'🚕 酒店→和顺古镇',time:'20分钟',color:C.green},
-    {path:[[24.955,98.445],[24.953,98.443]],label:'🚶 古镇内',time:'5分钟',color:C.green},
-    {path:[[24.953,98.443],[24.950,98.450]],label:'🚶 野鸭湖',time:'10分钟',color:C.green},
+    {path:[[24.955,98.445],[24.950,98.450]],label:'🚶 古镇→野鸭湖',time:'10分钟',color:C.green},
     {path:[[24.950,98.450],[24.970,98.455],[24.990,98.468],[25.010,98.480],[25.025,98.490]],label:'🚕 返回酒店',time:'20分钟',color:C.green},
   ],
   4:[
     {path:[[25.025,98.490],[25.030,98.500],[25.050,98.510],[25.080,98.480],[25.120,98.480]],label:'🚕 酒店→北海湿地',time:'35分钟',color:C.amber},
     {path:[[25.120,98.480],[25.130,98.482],[25.140,98.485],[25.155,98.485]],label:'🚕 北海→黑鱼河',time:'30分钟',color:C.amber},
-    {path:[[25.155,98.485],[25.150,98.480]],label:'🚶 河边步道',time:'10分钟',color:C.amber},
-    {path:[[25.150,98.480],[25.140,98.485],[25.120,98.480],[25.080,98.480],[25.050,98.510],[25.030,98.500],[25.025,98.490]],label:'🚕 返回酒店',time:'50分钟',color:C.amber},
+    {path:[[25.155,98.485],[25.140,98.485],[25.120,98.480],[25.080,98.480],[25.050,98.510],[25.030,98.500],[25.025,98.490]],label:'🚕 返回酒店',time:'50分钟',color:C.amber},
   ],
   5:[
-    {path:[[25.025,98.490],[25.030,98.520],[25.040,98.550],[25.050,98.600]],label:'🚙 包车→高黎贡山',time:'1小时',color:C.red},
-    {path:[[25.050,98.600],[25.045,98.590],[25.040,98.580]],label:'🚶 5km轻徒步',time:'2.5小时',color:C.red},
-    {path:[[25.040,98.580],[25.035,98.550],[25.030,98.520],[25.025,98.490]],label:'🚙 荒野厨房→酒店',time:'45分钟',color:C.red},
+    {path:[[25.025,98.490],[25.030,98.520],[25.040,98.550],[25.050,98.600]],label:'🚙 酒店→高黎贡山',time:'1小时',color:C.red},
+    {path:[[25.050,98.600],[25.040,98.580]],label:'🚶 轻徒步',time:'2.5小时',color:C.red},
+    {path:[[25.040,98.580],[25.035,98.550],[25.030,98.520],[25.025,98.490]],label:'🚙 返回酒店',time:'45分钟',color:C.red},
   ],
   6:[
-    {path:[[25.025,98.490],[25.024,98.485],[25.023,98.481]],label:'🚕 酒店→国殇墓园',time:'10分钟',color:C.pink},
+    {path:[[25.025,98.490],[25.024,98.485],[25.023,98.481]],label:'🚕 酒店→纪念馆',time:'10分钟',color:C.pink},
     {path:[[25.023,98.481],[25.024,98.485],[25.025,98.490]],label:'🚕 返回酒店',time:'10分钟',color:C.pink},
   ],
   7:[
